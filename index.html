@@ -41,12 +41,10 @@ small.note{color:var(--mut)}.foot{text-align:center;color:var(--mut);font-size:1
 <header>
 <h1>🏫 THPT CHI LĂNG — RÀ SOÁT NĐ 66/2025</h1>
 <p>CV 5778/SGDĐT-KHTC • QĐ 209 (16/01/2026) vs QĐ 3363 (11/08/2026) • Hạn GVCN: 11h00 15/09/2026</p>
-<div class="badge">Lớp demo: 12A10 — 23 HS — Kết quả: 0 thuộc diện</div>
 </header>
 <nav>
 <button class="on" data-t="tracuu">🔍 Tra cứu thôn/xã</button>
 <button data-t="lop">📋 Rà soát lớp</button>
-<button data-t="demo">⭐ DS 12A10 chốt</button>
 <button data-t="hieu">💡 KV I·II·III là gì?</button>
 </nav>
 <main>
@@ -65,21 +63,14 @@ small.note{color:var(--mut)}.foot{text-align:center;color:var(--mut);font-size:1
 <!-- LỚP -->
 <section class="card" id="s-lop" style="display:none">
 <h2>📋 Rà soát cả lớp + xuất Excel mẫu VP</h2>
-<p><small class="note">Mỗi dòng 1 HS: <b>Họ tên | Ngày sinh | Thôn | Xã</b> — VD:<br><code>Phạm Nguyên Khôi | 12/12/2009 | Thôn 1 | Kbang</code></small></p>
+<p><small class="note">Mỗi dòng 1 HS: <b>Họ tên | Ngày sinh | Thôn | Xã</b> — VD:<br><code>Nguyễn Văn A | 01/01/2009 | Thôn 1 | Kbang</code></small></p>
 <textarea id="in-lop" placeholder="Dán danh sách lớp vào đây..."></textarea><br>
-<label>Tên lớp: <input id="in-tenlop" value="12A10" style="width:140px;display:inline-block"></label>
+<label>Tên lớp: <input id="in-tenlop" value="" placeholder="VD: 12A1" style="width:140px;display:inline-block"></label>
 <button class="btn" onclick="raSoat()">1️⃣ Phân loại</button>
 <button class="btn gold" onclick="xuatExcel()">2️⃣ Xuất Excel mẫu VP ⬇</button>
 <button class="btn ghost" onclick="taiMauTrong()">Tải file mẫu trống</button>
 <input type="file" id="up" accept=".xlsx,.csv" style="margin-top:8px" onchange="docFile(this)">
 <div id="kq-lop"></div>
-</section>
-<!-- DEMO -->
-<section class="card" id="s-demo" style="display:none">
-<h2>⭐ Lớp 12A10 đã chốt (23 HS)</h2>
-<p><small class="note">Nguồn: DS HocSinh 10-09 + LLTN + CCCD (Ngọc Anh, Bảo Ngọc, Quỳnh Chi) + PH nhắn. Đối chiếu QĐ209/3363 chi tiết.</small></p>
-<button class="btn gold" onclick="xuat12A10()">⬇ Tải file CHỐT 12A10 nộp VP</button>
-<div style="overflow:auto"><table id="tbl-demo"><thead><tr><th>STT</th><th>Họ tên</th><th>Thôn — Xã</th><th>KV 209 → 3363</th><th>Thôn ĐBKK?</th><th>Kết luận</th></tr></thead><tbody></tbody></table></div>
 </section>
 <!-- HIỂU -->
 <section class="card" id="s-hieu" style="display:none">
@@ -95,7 +86,7 @@ small.note{color:var(--mut)}.foot{text-align:center;color:var(--mut);font-size:1
 <b>PH cần làm gì?</b> Chỉ nhắn <b>thôn + xã sau sáp nhập</b> theo CCCD. Đừng tự đoán nhóm, thầy tra QĐ.
 </div>
 </section>
-<div class="foot">THPT Chi Lăng • Tổ VP tổng hợp gửi Sở trước 17/09/2026 • Dữ liệu bóc từ PDF QĐ209 (608 thôn ĐBKK) & QĐ3363 (410 thôn ĐBKK) • Liên hệ GVCN 12A10</div>
+<div class="foot">THPT Chi Lăng • Tổ VP tổng hợp gửi Sở trước 17/09/2026 • Dữ liệu bóc từ PDF QĐ209 (608 thôn ĐBKK) & QĐ3363 (410 thôn ĐBKK)</div>
 </main>
 <script>
 function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
@@ -110,10 +101,17 @@ function matchXa(q){
   return null;
 }
 function inDB(thon,list){
-  const t=norm(thon).replace(/-/g," ");
+  const t=norm(thon).replace(/-/g," ").trim();
+  const tc=t.replace(/\s/g,"");
   return list.some(d=>{
-    const n=norm(d).replace(/-/g," ");
-    return n===t||n.includes(t)||t.includes(n)||n.replace(/\s/g,"")===t.replace(/\s/g,"");
+    const n=norm(d).replace(/-/g," ").trim();
+    if(n===t||n.replace(/\s/g,"")===tc) return true;
+    const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    try{
+      if(t.length>=4 && new RegExp("(^|\\s)"+esc(t)+"($|\\s)").test(n)) return true;
+      if(n.length>=4 && new RegExp("(^|\\s)"+esc(n)+"($|\\s)").test(t)) return true;
+    }catch(e){}
+    return false;
   });
 }
 function classify(thon,xaRaw){
@@ -143,7 +141,7 @@ function traCuu(){
 }
 let KQ=[];
 function raSoat(){
-  const lop=document.getElementById("in-tenlop").value||"12A10";
+  const lop=document.getElementById("in-tenlop").value||"...";
   const lines=document.getElementById("in-lop").value.split("\n").map(s=>s.trim()).filter(Boolean);
   KQ=lines.map((ln,i)=>{
     const p=ln.split("|").map(s=>s.trim());
@@ -170,35 +168,16 @@ function sheetMau(wbRows,lop){
 }
 function xuatExcel(){
   if(!KQ.length) raSoat();
-  const lop=document.getElementById("in-tenlop").value||"12A10";
+  const lop=document.getElementById("in-tenlop").value||"...";
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau(KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom)),lop)),"DS Hoc sinh thuoc ND66");
   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau(KQ,lop)),"Doi chieu full lop");
   XLSX.writeFile(wb,lop+" - Bang ra soat ND66-2025.xlsx");
 }
 function taiMauTrong(){const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau([],"......")),"DS Hoc sinh thuoc ND66");XLSX.writeFile(wb,"Mau ra soat ND66-2025.xlsx");}
-// demo 12A10
-(function(){
-  const tb=document.querySelector("#tbl-demo tbody");
-  tb.innerHTML=DS12A10.map((d,i)=>{
-    const [ten,ns,thon,xa]=d; const r=classify(thon,xa);
-    const kv=(r.kv209||"?")+" → "+(r.kv3363||"?");
-    const db=(r.db209?"CÓ":"không")+" → "+(r.db3363?"CÓ":"không");
-    const kl=r.xa?(r.nhom==="Không"?"Không ảnh hưởng":r.nhom+" — bị ảnh hưởng"):(r.note||"Ngoài phạm vi");
-    return `<tr><td>${i+1}</td><td><b>${ten}</b><br><small>${ns}</small></td><td>${thon} — <b>${r.xa||xa}</b></td><td>${kv}</td><td>${db}</td><td>${kl}</td></tr>`;
-  }).join("");
-})();
-function xuat12A10(){
-  const rows=DS12A10.map((d,i)=>({stt:i+1,ten:d[0],ns:d[1],thon:d[2],xa:d[3],xaChuan:(classify(d[2],d[3]).xa||d[3]),nhom:classify(d[2],d[3]).nhom||"Không",kl:classify(d[2],d[3]).kl||classify(d[2],d[3]).note}));
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau([],"12A10")),"DS Hoc sinh thuoc ND66");
-  const full=[["STT","Họ tên","Ngày sinh","Thôn","Xã chuẩn","Nhóm","Kết luận"]].concat(rows.map(x=>[x.stt,x.ten,x.ns,x.thon,x.xaChuan,x.nhom,x.kl]));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(full),"FULL 23 HS 12A10");
-  XLSX.writeFile(wb,"12A10 - CHOT DS nop VP 15-09-2026.xlsx");
-}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
-  ["tracuu","lop","demo","hieu"].forEach(t=>document.getElementById("s-"+t).style.display=(t===b.dataset.t?"":"none"));
+  ["tracuu","lop","hieu"].forEach(t=>document.getElementById("s-"+t).style.display=(t===b.dataset.t?"":"none"));
 });
 </script>
 </body>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rà soát NĐ66/2025 - THPT Chi Lăng | QĐ209 vs QĐ3363</title>
 <script src="data.js"></script>
+<script src="template.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
 :root{--navy:#1F4E78;--gold:#D9A441;--bg:#F4F6FA;--card:#fff;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--mut:#64748b}
@@ -159,22 +160,36 @@ function docFile(el){
   const rows=XLSX.utils.sheet_to_json(ws,{header:1});document.getElementById("in-lop").value=rows.slice(1).map(r=>r.slice(0,4).join(" | ")).join("\n");raSoat();};
   rd.readAsArrayBuffer(f);
 }
-function sheetMau(wbRows,lop){
-  const head=[["TRƯỜNG THPT CHI LĂNG"],["LỚP:"+lop],["DANH SÁCH HỌC SINH THUỘC ĐỐI TƯỢNG THEO NGHỊ ĐỊNH 66/2025 (Nhóm I, II, III)"],[],
-  ["STT","Họ và tên học sinh","Ngày sinh","Dân tộc","Lớp","Địa chỉ thường trú (Thôn/Xã)","Thuộc nhóm ảnh hưởng (1;2 hoặc 3)","Mức độ ảnh hưởng/Chế độ bị cắt","Đề xuất nhu cầu hỗ trợ","Ghi chú"]];
-  const body=wbRows.map((x,i)=>[i+1,x.ten,x.ns,"Kinh",lop,`${x.thon}, ${x.xaChuan}`,x.nhom==="Không"?"":x.nhom,x.nhom==="Không"?"":x.kl,"",""]);
-  const foot=[[],["","Tổng cộng:","Nhóm I: "+wbRows.filter(x=>x.nhom==="Nhóm 1").length+" HS"],[""," ","Nhóm II: "+wbRows.filter(x=>x.nhom==="Nhóm 2").length+" HS"],["","","Nhóm III: "+wbRows.filter(x=>x.nhom==="Nhóm 3").length+" HS"],[],["","","","","","","Hội Phú, ngày 15 tháng 9 năm 2026"],["","","","","","","GVCN LỚP "+lop]];
-  return head.concat(body).concat(foot);
+function templateWB(){return XLSX.read(window.TEMPLATE_B64,{type:"base64",cellStyles:true});}
+function nhomSo(n){return n==="Nhóm 1"?"1":n==="Nhóm 2"?"2":n==="Nhóm 3"?"3":"";}
+function b64ToBlob(b64,mime){const bin=atob(b64);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:mime});}
+function fillMau(rows,lop){
+  const wb=templateWB(); const ws=wb.Sheets[wb.SheetNames[0]];
+  const set=(a,v)=>{ws[a]={t:"s",v:String(v==null?"":v)};};
+  set("A2","LỚP: "+lop);
+  rows.forEach((x,i)=>{
+    const r=6+i;
+    set("A"+r,i+1); set("B"+r,x.ten||""); set("C"+r,x.ns||""); set("D"+r,"Kinh"); set("E"+r,lop);
+    set("F"+r,((x.thon||"")+(x.xaChuan?", "+x.xaChuan:""))); set("G"+r,nhomSo(x.nhom));
+    set("H"+r,x.nhom==="Không"?"":(x.kl||"")); set("I"+r,""); set("J"+r,"");
+  });
+  set("B17","Tổng cộng:");
+  set("C17","Nhóm I (Nhóm 1): "+rows.filter(x=>x.nhom==="Nhóm 1").length+" Học sinh");
+  set("C18","Nhóm II (Nhóm 2): "+rows.filter(x=>x.nhom==="Nhóm 2").length+" Học sinh");
+  set("C19","Nhóm III (Nhóm 3): "+rows.filter(x=>x.nhom==="Nhóm 3").length+" Học sinh");
+  return wb;
 }
 function xuatExcel(){
   if(!KQ.length) raSoat();
   const lop=document.getElementById("in-tenlop").value||"...";
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau(KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom)),lop)),"DS Hoc sinh thuoc ND66");
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau(KQ,lop)),"Doi chieu full lop");
-  XLSX.writeFile(wb,lop+" - Bang ra soat ND66-2025.xlsx");
+  const aff=KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom));
+  XLSX.writeFile(fillMau(aff,lop),lop+" - Bang ra soat ND66-2025.xlsx",{cellStyles:true});
 }
-function taiMauTrong(){const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sheetMau([],"......")),"DS Hoc sinh thuoc ND66");XLSX.writeFile(wb,"Mau ra soat ND66-2025.xlsx");}
+function taiMauTrong(){
+  const blob=b64ToBlob(window.TEMPLATE_B64,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Mau ra soat ND66-2025 (goc tai vu).xlsx"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
   ["tracuu","lop","hieu"].forEach(t=>document.getElementById("s-"+t).style.display=(t===b.dataset.t?"":"none"));

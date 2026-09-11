@@ -4,110 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rà soát NĐ66/2025 - THPT Chi Lăng | QĐ209 vs QĐ3363</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="data.js"></script>
 <script src="template.js"></script>
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
-:root{--navy:#1F4E78;--gold:#D9A441;--bg:#F4F6FA;--card:#fff;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--mut:#64748b}
-*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#1e293b}
-header{background:linear-gradient(135deg,#1F4E78,#2E75B6);color:#fff;padding:26px 18px;text-align:center}
-header h1{margin:0;font-size:22px}header p{margin:6px 0 0;opacity:.92;font-size:14px}
-.badge{display:inline-block;background:var(--gold);color:#1F4E78;font-weight:700;border-radius:20px;padding:4px 16px;font-size:14px;margin-top:10px}
-main{max-width:900px;margin:0 auto;padding:18px 14px 60px}
-.card{background:var(--card);border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(31,78,120,.08)}
-.card h2{margin:0 0 10px;color:var(--navy);font-size:18px}
-.step{display:inline-block;background:var(--navy);color:#fff;font-weight:800;border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;font-size:14px;margin-right:8px}
+:root{
+  --brand-900:#0F172A; --brand-800:#1E3A5F; --brand-600:#0369A1;
+  --cta:#047857; --cta-hover:#065F46;
+  --bg:#F8FAFC; --card:#FFFFFF; --ink:#0F172A; --muted:#475569;
+  --border:#E2E8F0; --danger:#DC2626;
+  --ok-bg:#ECFDF5; --ok-border:#34D399; --ok-ink:#065F46;
+  --hit-bg:#FEF2F2; --hit-border:#F87171; --hit-ink:#991B1B;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(15,23,42,.06),0 6px 20px rgba(15,23,42,.07);
+  --ring:0 0 0 3px rgba(3,105,161,.28);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px;line-height:1.6;padding-bottom:104px}
+/* ---------- Hero ---------- */
+.hero{background:linear-gradient(160deg,#0F172A 0%,#1E3A5F 78%);color:#fff;padding:32px 20px 28px}
+.hero-inner{max-width:920px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.08em;
+  color:#BFDBFE;text-transform:uppercase}
+.eyebrow svg{width:16px;height:16px}
+.hero h1{margin:8px 0 6px;font-size:26px;font-weight:800;letter-spacing:-.01em}
+.hero p{margin:0;color:#CBD5E1;font-size:14.5px}
+.deadline{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#fff;color:var(--brand-800);
+  font-weight:700;font-size:14px;border-radius:999px;padding:8px 16px}
+.deadline svg{width:17px;height:17px;flex:none}
+/* ---------- Stepper ---------- */
+.stepper{max-width:920px;margin:-22px auto 0;padding:0 14px;position:relative;z-index:2}
+.stepper-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);display:flex;padding:14px 8px}
+.step{flex:1;display:flex;gap:10px;align-items:flex-start;padding:2px 12px;position:relative}
+.step+.step::before{content:"";position:absolute;left:-1px;top:20px;width:1px;height:24px;background:var(--border)}
+.step .dot{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:14px;background:#F1F5F9;color:var(--muted);border:2px solid var(--border)}
+.step .t b{display:block;font-size:13.5px}
+.step .t span{font-size:12px;color:var(--muted)}
+.step.active .dot{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.step.active .t b{color:var(--brand-800)}
+.step.done .dot{background:var(--cta);border-color:var(--cta);color:#fff}
+/* ---------- Layout ---------- */
+main{max-width:920px;margin:0 auto;padding:16px 14px 8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px;margin:16px 0}
+.card>h2{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--brand-800);display:flex;align-items:center;gap:10px}
+.card>h2 svg{width:22px;height:22px;color:var(--brand-600);flex:none}
+.sub{margin:0 0 14px;font-size:13.5px;color:var(--muted)}
+.sub code{background:#F1F5F9;border:1px solid var(--border);border-radius:6px;padding:1px 7px;font-size:12.5px}
+/* ---------- Form ---------- */
+label.f{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+input[type=text],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);
+  border:1.5px solid #CBD5E1;border-radius:10px;padding:12px 14px;background:#fff}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--brand-600);box-shadow:var(--ring)}
+textarea{min-height:150px;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;line-height:1.7;resize:vertical}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:640px){.grid2{grid-template-columns:1fr}header h1{font-size:18px}th{position:static!important}}
-input,textarea{width:100%;padding:12px;border:2px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit}
-textarea{min-height:140px;font-family:Consolas,monospace;font-size:14px}
-.btn{background:var(--navy);color:#fff;border:none;border-radius:12px;padding:14px 20px;font-weight:800;cursor:pointer;font-size:16px;margin:8px 8px 0 0}
-.btn.gold{background:var(--gold);color:#1F4E78}.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
-.btn.big{width:100%;font-size:18px;padding:16px}
-.btn:active{transform:scale(.98)}
-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
-th{background:var(--navy);color:#fff;padding:10px 8px;position:sticky;top:0}
-td{border:1px solid #e2e8f0;padding:9px 8px;vertical-align:top}
-tr:nth-child(even) td{background:#F8FAFC}
-.pill{display:inline-block;border-radius:20px;padding:2px 12px;font-weight:700;font-size:12px;white-space:nowrap}
-.p1{background:#FEE2E2;color:#991B1B}.p2{background:#FEF3C7;color:#92400E}.p3{background:#FCE7F3;color:#9D174D}.p0{background:#DCFCE7;color:#166534}.px{background:#E2E8F0;color:#475569}
-.result{border-radius:12px;padding:16px;margin-top:12px;font-size:16px;line-height:1.7}
-.result.ok{background:#F0FDF4;border:2px solid #86EFAC}.result.hit{background:#FEF2F2;border:2px solid #FCA5A5}
-small.note{color:var(--mut)}.foot{text-align:center;color:var(--mut);font-size:12px;margin:30px 0}
-details.card summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:16px}
-.kv{border-radius:12px;padding:14px;border-left:6px solid;margin-top:10px}
-.kv.III{border-color:#DC2626;background:#FEF2F2}.kv.II{border-color:var(--gold);background:#FFFBEB}.kv.I{border-color:#2E75B6;background:#EFF6FF}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.stat{background:#F8FAFC;border:2px solid #e2e8f0;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px}
-label.cb{display:flex;align-items:center;gap:8px;font-size:15px;margin-top:10px}
-label.cb input{width:20px;height:20px}
-.err{background:#FEF2F2;border:2px solid #FCA5A5;border-radius:10px;padding:12px;margin-top:10px;font-size:14px}
+.hint{font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:12px 20px;border-radius:12px;border:1.5px solid transparent;
+  font:inherit;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:none;
+  transition:background-color .2s ease,box-shadow .2s ease,transform .12s ease}
+.btn svg{width:19px;height:19px;flex:none}
+.btn-solid{background:var(--brand-800);color:#fff}
+.btn-solid:hover{background:var(--brand-900)}
+.btn-cta{background:var(--cta);color:#fff}
+.btn-cta:hover{background:var(--cta-hover)}
+.btn-ghost{background:#fff;color:var(--brand-800);border-color:var(--brand-800)}
+.btn-ghost:hover{background:#EFF6FF}
+.btn:active{transform:scale(.985)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:none;box-shadow:var(--ring)}
+.btn-block{width:100%;font-size:17px;min-height:54px}
+/* ---------- Result ---------- */
+.result{border-radius:12px;padding:16px 18px;margin-top:14px;border:2px solid;display:flex;gap:12px}
+.result svg{width:26px;height:26px;flex:none;margin-top:2px}
+.result.ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.result.ok svg{color:var(--cta)}
+.result.hit{background:var(--hit-bg);border-color:var(--hit-border)}
+.result.hit svg{color:var(--danger)}
+.result .h{font-size:16.5px;font-weight:800;margin:0 0 6px}
+.result .meta{font-size:14px;margin:2px 0}
+.result .list{font-size:12.5px;color:var(--muted);margin-top:8px}
+/* ---------- Pills / table ---------- */
+.pill{display:inline-block;border-radius:999px;padding:3px 13px;font-weight:700;font-size:12.5px;white-space:nowrap}
+.p1{background:#FEE2E2;color:#991B1B}.p2{background:#FEF3C7;color:#92400E}
+.p3{background:#FCE7F3;color:#9D174D}.p0{background:#D1FAE5;color:#065F46}.px{background:#E2E8F0;color:#475569}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.stat{background:#F8FAFC;border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-weight:700;font-size:13.5px}
+.stat.hot{border-color:var(--hit-border);background:var(--hit-bg);color:var(--hit-ink)}
+.stat.cool{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-ink)}
+.tblwrap{overflow:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px}
+th{background:var(--brand-800);color:#fff;padding:10px 9px;text-align:left;font-size:12.5px;white-space:nowrap}
+td{border-top:1px solid var(--border);padding:9px;vertical-align:top}
+tbody tr:nth-child(even) td{background:#F8FAFC}
+label.cb{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;margin-top:12px;cursor:pointer}
+label.cb input{width:22px;height:22px;accent-color:var(--brand-800)}
+.err{background:var(--hit-bg);border:2px solid var(--hit-border);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:14px}
+.okmsg{background:var(--ok-bg);border:2px solid var(--ok-border);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:14px;display:flex;gap:10px}
+.okmsg svg{width:20px;height:20px;color:var(--cta);flex:none;margin-top:2px}
+/* ---------- Explain ---------- */
+details.card summary{cursor:pointer;font-weight:800;color:var(--brand-800);font-size:16px;list-style:none;display:flex;align-items:center;gap:10px;min-height:48px}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary svg{width:22px;height:22px;color:var(--brand-600);flex:none}
+details.card summary .chev{margin-left:auto;color:var(--muted)}
+.kv{border-radius:10px;padding:13px 15px;border-left:5px solid;margin-top:10px;font-size:14px}
+.kv.III{border-color:var(--danger);background:var(--hit-bg)}
+.kv.II{border-color:#D9A441;background:#FFFBEB}
+.kv.I{border-color:var(--brand-600);background:#EFF6FF}
+.kv b{display:block;margin-bottom:2px}
+/* ---------- Sticky action bar ---------- */
+.actionbar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(6px);border-top:1px solid var(--border);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.actionbar-inner{max-width:920px;margin:0 auto;display:flex;gap:10px}
+.actionbar .btn{flex:1;min-height:52px}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin:26px 0 10px;padding:0 16px}
+.filebox{margin-top:12px;border:1.5px dashed #94A3B8;border-radius:10px;padding:14px;background:#F8FAFC}
+.filebox input{margin-top:8px;font-size:14px}
+@media(max-width:640px){
+  .hero h1{font-size:21px}
+  .grid2{grid-template-columns:1fr}
+  .step .t span{display:none}
+  .step{padding:2px 8px}
+  table{min-width:560px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
 </style>
 </head>
 <body>
-<header>
-<h1>🏫 THPT CHI LĂNG — RÀ SOÁT NĐ 66/2025</h1>
-<p>CV 5778/SGDĐT-KHTC • QĐ 209 (16/01/2026) vs QĐ 3363 (11/08/2026)</p>
-<div class="badge">⏰ GVCN nộp về VP trước 11h00 ngày 15/09/2026</div>
-</header>
-<main>
 
-<!-- TRA CỨU LẺ -->
-<section class="card">
-<h2>🔍 Tra cứu nhanh 1 em</h2>
-<p><small class="note">Nhập <b>thôn + xã sau sáp nhập</b> theo CCCD/VNeID (có gợi ý sẵn). Dữ liệu bóc từ PDF, đúng ~95% — ca nghi ngờ đối chiếu PDF gốc.</small></p>
-<div class="grid2">
-<div><label>Thôn / Tổ dân phố<br><input id="in-thon" list="dl-thon" placeholder="VD: Thôn 1, Kon Dơng 4, Plei Đung..." autocomplete="off"></label></div>
-<div><label>Xã / Phường<br><input id="in-xa" list="dl-xa" placeholder="VD: Kbang, Mang Yang, Phú Thiện..." autocomplete="off"></label></div>
+<header class="hero">
+<div class="hero-inner">
+<span class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>THPT Chi Lăng • CV 5778/SGDĐT-KHTC</span>
+<h1>Rà soát NĐ 66/2025</h1>
+<p>Đối chiếu QĐ 209 (16/01/2026) với QĐ 3363 (11/08/2026) — tìm HS thuộc Nhóm 1 / 2 / 3 để lập DS nộp VP.</p>
+<span class="deadline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Hạn GVCN nộp về VP: 11h00 ngày 15/09/2026</span>
 </div>
-<button class="btn" onclick="traCuu()">Tra cứu →</button>
+</header>
+
+<div class="stepper" aria-label="Tiến độ">
+<div class="stepper-card">
+<div class="step active" id="st1"><span class="dot">1</span><span class="t"><b>Nhập DS lớp</b><span>Dán hoặc tải file</span></span></div>
+<div class="step" id="st2"><span class="dot">2</span><span class="t"><b>Phân loại</b><span>Nhóm 1 / 2 / 3</span></span></div>
+<div class="step" id="st3"><span class="dot">3</span><span class="t"><b>Xuất Excel</b><span>Mẫu tài vụ</span></span></div>
+</div>
+</div>
+
+<main>
+<!-- TRA CỨU LẺ -->
+<section class="card" aria-labelledby="h-lookup">
+<h2 id="h-lookup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Tra cứu nhanh 1 em</h2>
+<p class="sub">Nhập <b>thôn + xã sau sáp nhập</b> theo CCCD/VNeID (gõ vài chữ sẽ có gợi ý). Dữ liệu bóc từ PDF, đúng khoảng 95% — ca nghi ngờ thầy đối chiếu PDF gốc.</p>
+<div class="grid2">
+<div><label class="f" for="in-thon">Thôn / Tổ dân phố</label><input type="text" id="in-thon" list="dl-thon" placeholder="VD: Thôn 1, Kon Dơng 4, Plei Đung" autocomplete="off"></div>
+<div><label class="f" for="in-xa">Xã / Phường</label><input type="text" id="in-xa" list="dl-xa" placeholder="VD: Kbang, Mang Yang, Phú Thiện" autocomplete="off"></div>
+</div>
+<div class="row"><button class="btn btn-solid" onclick="traCuu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Tra cứu</button></div>
 <datalist id="dl-xa"></datalist><datalist id="dl-thon"></datalist>
-<div id="kq-tracuu"></div>
+<div id="kq-tracuu" aria-live="polite"></div>
 </section>
 
 <!-- BƯỚC 1 -->
-<section class="card">
-<h2><span class="step">1</span>Nhập danh sách lớp</h2>
-<p><small class="note">Mỗi dòng 1 HS, các cột cách nhau bằng <b>|</b> (hoặc Tab khi copy từ Excel):<br>
-<code>Họ tên | Ngày sinh | Dân tộc | Thôn | Xã</code> — cột Dân tộc có thể bỏ trống.<br>
-VD: <code>Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang</code></small></p>
-<label>Tên lớp:<br><input id="in-tenlop" placeholder="VD: 12A1" style="max-width:220px" autocomplete="off"></label>
-<div style="height:10px"></div>
+<section class="card" aria-labelledby="h-s1">
+<h2 id="h-s1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M10 13h5m-5 4h5"/></svg>Bước 1 — Nhập danh sách lớp</h2>
+<p class="sub">Mỗi dòng 1 HS, các cột cách nhau bằng dấu <code>|</code> (copy từ Excel sang sẽ tự nhận cột Tab):<br><code>Họ tên | Ngày sinh | Dân tộc | Thôn | Xã</code> — cột Dân tộc được bỏ trống.<br>VD: <code>Rơ Chăm H'Bla | 12/05/2009 | Jrai | Plei Đung | Ia Hrú</code></p>
+<label class="f" for="in-tenlop">Tên lớp</label>
+<input type="text" id="in-tenlop" placeholder="VD: 12A1" style="max-width:240px" autocomplete="off">
+<div style="height:12px"></div>
+<label class="f" for="in-lop">Danh sách học sinh</label>
 <textarea id="in-lop" placeholder="Dán danh sách lớp vào đây..."></textarea>
-<div>
-<button class="btn ghost" onclick="dienVD()">Điền ví dụ</button>
-<button class="btn ghost" onclick="xoaTrang()">Xóa trắng</button>
+<div class="row">
+<button class="btn btn-ghost" onclick="dienVD()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20l-5 1 1-5L17 3z"/></svg>Điền ví dụ</button>
+<button class="btn btn-ghost" onclick="xoaTrang()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>Xóa trắng</button>
 </div>
-<div style="margin-top:10px"><small class="note">Hoặc tải file Excel/CSV có sẵn (app tự đoán cột Họ tên, Ngày sinh, Dân tộc, Thôn, Xã):</small>
-<input type="file" id="up" accept=".xlsx,.csv" style="margin-top:6px" onchange="docFile(this)"></div>
+<div class="filebox">
+<label class="f" for="up" style="margin:0">Hoặc tải file Excel / CSV có sẵn</label>
+<div class="hint">App tự đoán cột Họ tên, Ngày sinh, Dân tộc, Thôn, Xã.</div>
+<input type="file" id="up" accept=".xlsx,.csv" onchange="docFile(this)">
+</div>
 </section>
 
 <!-- BƯỚC 2 -->
-<section class="card">
-<h2><span class="step">2</span>Phân loại</h2>
-<button class="btn" onclick="raSoat()">1️⃣ Phân loại cả lớp</button>
-<label class="cb"><input type="checkbox" id="ck-loc" onchange="renderTable()"> Chỉ hiện em bị ảnh hưởng (Nhóm 1/2/3)</label>
-<div id="kq-stats"></div>
+<section class="card" aria-labelledby="h-s2">
+<h2 id="h-s2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>Bước 2 — Phân loại</h2>
+<p class="sub">App đối chiếu từng em với QĐ209 và QĐ3363, gắn Nhóm 1 / 2 / 3 nếu bị ảnh hưởng.</p>
+<div class="row" style="margin-top:0"><button class="btn btn-solid" onclick="raSoat()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5.5"/></svg>Phân loại cả lớp</button></div>
+<label class="cb"><input type="checkbox" id="ck-loc" onchange="renderTable()"> Chỉ hiện em bị ảnh hưởng (Nhóm 1 / 2 / 3)</label>
+<div id="kq-stats" aria-live="polite"></div>
 <div id="kq-lop"></div>
 </section>
 
 <!-- BƯỚC 3 -->
-<section class="card">
-<h2><span class="step">3</span>Xuất file nộp VP</h2>
-<p><small class="note">File đúng mẫu của tài vụ (giữ nguyên tiêu đề, khung, merge). Lớp không có em nào bị ảnh hưởng vẫn xuất file trống có tên lớp + tổng 0 để in ký nộp. Dữ liệu chỉ xử lý trên máy thầy, không gửi đi đâu.</small></p>
-<button class="btn gold big" onclick="xuatExcel()">2️⃣ Xuất Excel nộp VP ⬇</button>
-<button class="btn ghost" onclick="taiMauTrong()">Tải file mẫu trống</button>
-<div id="kq-excel"></div>
+<section class="card" aria-labelledby="h-s3">
+<h2 id="h-s3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>Bước 3 — Xuất file nộp VP</h2>
+<p class="sub">File đúng mẫu của tài vụ (giữ nguyên tiêu đề, khung, merge). Lớp không có em nào bị ảnh hưởng vẫn xuất file trống có tên lớp + tổng 0 để in ký nộp. Dữ liệu chỉ xử lý trên máy thầy, không gửi đi đâu.</p>
+<button class="btn btn-cta btn-block" onclick="xuatExcel()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>Xuất Excel nộp VP</button>
+<div class="row"><button class="btn btn-ghost" onclick="taiMauTrong()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>Tải file mẫu trống</button></div>
+<div id="kq-excel" aria-live="polite"></div>
 </section>
 
 <!-- GIẢI THÍCH -->
 <details class="card">
-<summary>💡 KV I · II · III là gì? (bấm để xem, để forward cho PH)</summary>
-<div class="kv III"><b>🔴 Xã KV III = xã khó nhất</b><br>Mang Yang, Phú Thiện, Ia Hrú, Ya Ma, Kbang, Sơn Lang... HS được hỗ trợ nhiều nhất.</div>
-<div class="kv II"><b>🟡 Xã KV II = xã còn khó</b><br>Hội Phú, Thống Nhất, An Bình... Hưởng ít hơn.</div>
-<div class="kv I"><b>🔵 Xã KV I = hết khó, lên phố</b><br>Pleiku, Diên Hồng... Hết chính sách vùng khó.</div>
-<div class="card" style="background:#F8FAFC">
+<summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.7-2.4 2-2.4 3.3M12 17v.5"/></svg>KV I · II · III là gì? (bấm để xem, forward cho PH)<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+<div class="kv III"><b>Xã KV III — xã khó nhất</b>Mang Yang, Phú Thiện, Ia Hrú, Ya Ma, Kbang, Sơn Lang... HS được hỗ trợ nhiều nhất.</div>
+<div class="kv II"><b>Xã KV II — xã còn khó</b>Hội Phú, Thống Nhất, An Bình... Hưởng ít hơn.</div>
+<div class="kv I"><b>Xã KV I — hết khó</b>Pleiku, Diên Hồng... Hết chính sách vùng khó.</div>
+<div class="card" style="background:#F8FAFC;box-shadow:none;margin-bottom:0">
 <b>Thôn ĐBKK là gì?</b> Trong 1 xã có thôn giàu thôn nghèo. Thôn nghèo nhất gọi là thôn ĐBKK.<br><br>
 <b>Nhóm 1, 2, 3 là ai?</b> Chỉ 1 câu: <b>trước ở thôn ĐBKK, nay thôn hết ĐBKK nên bị cắt tiền.</b> Nhóm 1 = thôn ngoài KV, Nhóm 2 = thôn trong xã KV I, Nhóm 3 = thôn trong xã KV II.<br><br>
 <b>PH cần làm gì?</b> Chỉ nhắn <b>thôn + xã sau sáp nhập</b> theo CCCD. Đừng tự đoán nhóm, thầy tra QĐ.
@@ -116,8 +230,19 @@ VD: <code>Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang</code></small></
 
 <div class="foot">THPT Chi Lăng • Tổ VP tổng hợp gửi Sở trước 17/09/2026 • Đối chiếu QĐ209 (608 thôn ĐBKK) &amp; QĐ3363 (410 thôn ĐBKK) — app đã số hóa 569/389 thôn, ca nghi ngờ đối chiếu PDF gốc</div>
 </main>
+
+<nav class="actionbar" aria-label="Thao tác nhanh">
+<div class="actionbar-inner">
+<button class="btn btn-ghost" onclick="raSoat()">Phân loại</button>
+<button class="btn btn-cta" onclick="xuatExcel()">Xuất Excel</button>
+</div>
+</nav>
+
 <script>
-function norm(s){return (s||"").toLowerCase().replace(/đ/g,"d").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
+const ICON_OK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5.5"/></svg>';
+const ICON_HIT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2.5 20h19L12 4z"/><path d="M12 10v4m0 3v.5"/></svg>';
+const ICON_COPY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+function norm(s){return (s||"").toLowerCase().replace(/đ/g,"d").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim();}
 const XA=Object.keys(QD_DATA).sort();
 document.getElementById("dl-xa").innerHTML=XA.map(x=>`<option value="${x}">`).join("");
 const ALLTHON=[...new Set(XA.flatMap(x=>QD_DATA[x].all))].sort();
@@ -162,17 +287,26 @@ function classify(thon,xaRaw){
   }else if(db209&&db3363){kl="Vẫn là thôn ĐBKK → KHÔNG bị cắt, không đưa vào DS.";}
   return {xa,kv209:D.kv209,kv3363:D.kv3363,db209,db3363,nhom,kl,cls,dbL209:D.db209,dbL3363:D.db3363};
 }
+function markStep(n){
+  ["st1","st2","st3"].forEach((id,i)=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.classList.toggle("done",i<n-1);
+    el.classList.toggle("active",i===n-1);
+    const dot=el.querySelector(".dot"); if(dot&&(i<n-1)) dot.innerHTML="✓";
+  });
+}
 function traCuu(){
   const thon=document.getElementById("in-thon").value.trim(), xa=document.getElementById("in-xa").value.trim();
   const r=classify(thon,xa); const box=document.getElementById("kq-tracuu");
-  if(!r.xa){box.innerHTML=`<div class="result hit"><b>Không tìm thấy xã “${xa}”.</b><br>${r.note}</div>`;return;}
+  if(!r.xa){box.innerHTML=`<div class="result hit">${ICON_HIT}<div><p class="h">Không tìm thấy xã “${xa}”.</p><p class="meta">${r.note}</p></div></div>`;return;}
   const txt=`${thon||"(chưa nhập thôn)"} - ${r.xa}: ${r.nhom}. KV ${r.kv209||"?"} (209) -> KV ${r.kv3363||"?"} (3363). Thon DBKK 209: ${r.db209?"CO":"KHONG"}, 3363: ${r.db3363?"CO":"KHONG"}. ${r.kl}`;
-  box.innerHTML=`<div class="result ${r.nhom==="Không"?"ok":"hit"}">
-  <b>${thon||"(chưa nhập thôn)"} — ${r.xa}</b> <span class="pill ${r.cls}">${r.nhom}</span><br>
-  Xã: KV ${r.kv209||"?"} (QĐ209) → KV ${r.kv3363||"?"} (QĐ3363)<br>
-  Thôn ĐBKK QĐ209: <b>${r.db209?"CÓ":"KHÔNG"}</b> • QĐ3363: <b>${r.db3363?"CÓ":"KHÔNG"}</b><br>${r.kl}<br>
-  <button class="btn ghost" onclick='copyTxt(${JSON.stringify(txt)})'>📋 Copy gửi Zalo PH</button><br>
-  <small class="note">ĐBKK 209 ${r.xa}: ${r.dbL209.join("; ")||"—"}<br>ĐBKK 3363: ${r.dbL3363.join("; ")||"—"}</small></div>`;
+  box.innerHTML=`<div class="result ${r.nhom==="Không"?"ok":"hit"}">${r.nhom==="Không"?ICON_OK:ICON_HIT}<div>
+  <p class="h">${thon||"(chưa nhập thôn)"} — ${r.xa} <span class="pill ${r.cls}">${r.nhom}</span></p>
+  <p class="meta">Xã: KV ${r.kv209||"?"} (QĐ209) → KV ${r.kv3363||"?"} (QĐ3363)</p>
+  <p class="meta">Thôn ĐBKK QĐ209: <b>${r.db209?"CÓ":"KHÔNG"}</b> • QĐ3363: <b>${r.db3363?"CÓ":"KHÔNG"}</b></p>
+  <p class="meta">${r.kl}</p>
+  <div class="row"><button class="btn btn-ghost" onclick='copyTxt(${JSON.stringify(txt)})'>${ICON_COPY}Copy gửi Zalo PH</button></div>
+  <p class="list">ĐBKK 209 ${r.xa}: ${r.dbL209.join("; ")||"—"}<br>ĐBKK 3363: ${r.dbL3363.join("; ")||"—"}</p></div></div>`;
 }
 function copyTxt(t){
   const done=()=>alert("Đã copy, thầy dán vào Zalo là xong.");
@@ -200,6 +334,7 @@ function raSoat(){
     const r=classify(d.thon,d.xa);
     return {stt:i+1,ten:d.ten,ns:d.ns,dantoc:d.dantoc,thon:d.thon,xa:d.xa,xaChuan:r.xa||d.xa,nhom:r.nhom,kl:(r.kl||r.note||"")};
   });
+  markStep(2);
   renderTable();
 }
 function pillCls(n){return n==="Không"?"p0":n==="Nhóm 1"?"p1":n==="Nhóm 2"?"p2":n==="Nhóm 3"?"p3":"px";}
@@ -208,10 +343,11 @@ function renderTable(){
   const loc=document.getElementById("ck-loc").checked;
   const rows=loc?KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom)):KQ;
   const c1=KQ.filter(x=>x.nhom==="Nhóm 1").length,c2=KQ.filter(x=>x.nhom==="Nhóm 2").length,c3=KQ.filter(x=>x.nhom==="Nhóm 3").length;
-  document.getElementById("kq-stats").innerHTML=KQ.length?`<div class="stats"><div class="stat">Lớp ${lop}: ${KQ.length} HS</div><div class="stat">Bị ảnh hưởng: ${c1+c2+c3}</div><div class="stat">N1: ${c1} • N2: ${c2} • N3: ${c3}</div></div>`:"";
-  document.getElementById("kq-lop").innerHTML=rows.length?`<div style="overflow:auto"><table><thead><tr><th>STT</th><th>Họ tên</th><th>Ngày sinh</th><th>Dân tộc</th><th>Thôn — Xã</th><th>Nhóm</th><th>Kết luận</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.stt}</td><td>${x.ten}</td><td>${x.ns}</td><td>${x.dantoc}</td><td>${x.thon} — ${x.xaChuan}</td><td><span class="pill ${pillCls(x.nhom)}">${x.nhom}</span></td><td>${x.kl}</td></tr>`).join("")}</tbody></table></div>`:(KQ.length?"<p><small class='note'>Bật lọc mà lớp không có em nào bị ảnh hưởng — tốt, vẫn xuất file trống nộp VP.</small></p>":"");
+  const aff=c1+c2+c3;
+  document.getElementById("kq-stats").innerHTML=KQ.length?`<div class="stats"><div class="stat">Lớp ${lop}: ${KQ.length} HS</div><div class="stat ${aff?"hot":"cool"}">${aff?("Bị ảnh hưởng: "+aff+" em"):"Không có em nào bị ảnh hưởng"}</div><div class="stat">N1: ${c1} • N2: ${c2} • N3: ${c3}</div></div>`:"";
+  document.getElementById("kq-lop").innerHTML=rows.length?`<div class="tblwrap"><table><thead><tr><th>STT</th><th>Họ tên</th><th>Ngày sinh</th><th>Dân tộc</th><th>Thôn — Xã</th><th>Nhóm</th><th>Kết luận</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.stt}</td><td>${x.ten}</td><td>${x.ns}</td><td>${x.dantoc}</td><td>${x.thon} — ${x.xaChuan}</td><td><span class="pill ${pillCls(x.nhom)}">${x.nhom}</span></td><td>${x.kl}</td></tr>`).join("")}</tbody></table></div>`:(KQ.length?"<p class='hint'>Bật lọc mà lớp không có em nào bị ảnh hưởng — tốt, vẫn xuất file trống nộp VP.</p>":"");
 }
-function dienVD(){document.getElementById("in-lop").value="Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang\nRơ Chăm H'Bla | 12/05/2009 | Jrai | Plei Đung | Ia Hrú\nNguyễn Thị B | 03/03/2009 | | Kon Dơng 4 | Mang Yang";saveDraft();}
+function dienVD(){document.getElementById("in-lop").value="Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang\nRơ Chăm H'Bla | 12/05/2009 | Jrai | Plei Đung | Ia Hrú\nNguyễn Thị B | 03/03/2009 | | Kon Dơng 4 | Mang Yang";saveDraft();markStep(1);}
 function xoaTrang(){document.getElementById("in-lop").value="";document.getElementById("kq-lop").innerHTML="";document.getElementById("kq-stats").innerHTML="";KQ=[];saveDraft();}
 function saveDraft(){try{localStorage.setItem("nd66_lop",document.getElementById("in-tenlop").value);localStorage.setItem("nd66_ds",document.getElementById("in-lop").value);}catch(e){}}
 function loadDraft(){try{document.getElementById("in-tenlop").value=localStorage.getItem("nd66_lop")||"";document.getElementById("in-lop").value=localStorage.getItem("nd66_ds")||"";}catch(e){}}
@@ -283,8 +419,10 @@ function xuatExcel(){
   const lop=document.getElementById("in-tenlop").value||"...";
   const aff=KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom));
   try{
-    XLSX.writeFile(fillMau(aff,lop),lop+" - Bang ra soat ND66-2025.xlsx",{cellStyles:true});
-    document.getElementById("kq-excel").innerHTML=`<p><small class="note">Đã xuất ${aff.length} em (Nhóm 1/2/3) vào file đúng mẫu VP. Lớp 0 em thì file trống có tên lớp + tổng 0 — thầy in ký nộp bình thường.</small></p>`;
+    const fname=lop+" - Bang ra soat ND66-2025.xlsx";
+    XLSX.writeFile(fillMau(aff,lop),fname,{cellStyles:true});
+    markStep(3);
+    document.getElementById("kq-excel").innerHTML=`<div class="okmsg">${ICON_OK}<div><b>Đã xuất file: ${fname}</b><br><span class="hint">Gồm ${aff.length} em (Nhóm 1/2/3), đúng mẫu tài vụ. Lớp 0 em thì file trống có tên lớp + tổng 0 — thầy in ký nộp bình thường.</span></div></div>`;
   }catch(err){document.getElementById("kq-excel").innerHTML=`<div class="err">Xuất Excel lỗi: ${err.message}</div>`;}
 }
 function taiMauTrong(){

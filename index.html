@@ -6,106 +6,138 @@
 <title>Rà soát NĐ66/2025 - THPT Chi Lăng | QĐ209 vs QĐ3363</title>
 <script src="data.js"></script>
 <script src="template.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
 :root{--navy:#1F4E78;--gold:#D9A441;--bg:#F4F6FA;--card:#fff;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--mut:#64748b}
 *{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#1e293b}
 header{background:linear-gradient(135deg,#1F4E78,#2E75B6);color:#fff;padding:26px 18px;text-align:center}
 header h1{margin:0;font-size:22px}header p{margin:6px 0 0;opacity:.92;font-size:14px}
-.badge{display:inline-block;background:var(--gold);color:#1F4E78;font-weight:700;border-radius:20px;padding:3px 14px;font-size:13px;margin-top:10px}
-nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:#fff;padding:10px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-nav button{border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;border-radius:10px;padding:9px 16px;cursor:pointer;font-size:14px}
-nav button.on{background:var(--navy);color:#fff}
-main{max-width:1080px;margin:0 auto;padding:18px 14px 60px}
+.badge{display:inline-block;background:var(--gold);color:#1F4E78;font-weight:700;border-radius:20px;padding:4px 16px;font-size:14px;margin-top:10px}
+main{max-width:900px;margin:0 auto;padding:18px 14px 60px}
 .card{background:var(--card);border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(31,78,120,.08)}
 .card h2{margin:0 0 10px;color:var(--navy);font-size:18px}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.kv{border-radius:12px;padding:14px;border-left:6px solid}
-.kv.I{border-color:#2E75B6;background:#EFF6FF}.kv.II{border-color:var(--gold);background:#FFFBEB}.kv.III{border-color:#DC2626;background:#FEF2F2}
-.kv b{font-size:15px}input,select,textarea{width:100%;padding:10px 12px;border:2px solid #cbd5e1;border-radius:10px;font-size:14px;font-family:inherit}
-textarea{min-height:130px;font-family:Consolas,monospace}
-.btn{background:var(--navy);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer;font-size:14px;margin:6px 6px 0 0}
+.step{display:inline-block;background:var(--navy);color:#fff;font-weight:800;border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;font-size:14px;margin-right:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}header h1{font-size:18px}th{position:static!important}}
+input,textarea{width:100%;padding:12px;border:2px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit}
+textarea{min-height:140px;font-family:Consolas,monospace;font-size:14px}
+.btn{background:var(--navy);color:#fff;border:none;border-radius:12px;padding:14px 20px;font-weight:800;cursor:pointer;font-size:16px;margin:8px 8px 0 0}
 .btn.gold{background:var(--gold);color:#1F4E78}.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
-th{background:var(--navy);color:#fff;padding:9px 7px;position:sticky;top:57px}
-td{border:1px solid #e2e8f0;padding:8px 7px;vertical-align:top}
+.btn.big{width:100%;font-size:18px;padding:16px}
+.btn:active{transform:scale(.98)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+th{background:var(--navy);color:#fff;padding:10px 8px;position:sticky;top:0}
+td{border:1px solid #e2e8f0;padding:9px 8px;vertical-align:top}
 tr:nth-child(even) td{background:#F8FAFC}
-.pill{display:inline-block;border-radius:20px;padding:2px 12px;font-weight:700;font-size:12px}
+.pill{display:inline-block;border-radius:20px;padding:2px 12px;font-weight:700;font-size:12px;white-space:nowrap}
 .p1{background:#FEE2E2;color:#991B1B}.p2{background:#FEF3C7;color:#92400E}.p3{background:#FCE7F3;color:#9D174D}.p0{background:#DCFCE7;color:#166534}.px{background:#E2E8F0;color:#475569}
-.result{border-radius:12px;padding:14px;margin-top:12px;font-size:14px;line-height:1.65}
+.result{border-radius:12px;padding:16px;margin-top:12px;font-size:16px;line-height:1.7}
 .result.ok{background:#F0FDF4;border:2px solid #86EFAC}.result.hit{background:#FEF2F2;border:2px solid #FCA5A5}
 small.note{color:var(--mut)}.foot{text-align:center;color:var(--mut);font-size:12px;margin:30px 0}
-@media(max-width:640px){th{position:static}header h1{font-size:18px}}
+details.card summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:16px}
+.kv{border-radius:12px;padding:14px;border-left:6px solid;margin-top:10px}
+.kv.III{border-color:#DC2626;background:#FEF2F2}.kv.II{border-color:var(--gold);background:#FFFBEB}.kv.I{border-color:#2E75B6;background:#EFF6FF}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.stat{background:#F8FAFC;border:2px solid #e2e8f0;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px}
+label.cb{display:flex;align-items:center;gap:8px;font-size:15px;margin-top:10px}
+label.cb input{width:20px;height:20px}
+.err{background:#FEF2F2;border:2px solid #FCA5A5;border-radius:10px;padding:12px;margin-top:10px;font-size:14px}
 </style>
 </head>
 <body>
 <header>
 <h1>🏫 THPT CHI LĂNG — RÀ SOÁT NĐ 66/2025</h1>
-<p>CV 5778/SGDĐT-KHTC • QĐ 209 (16/01/2026) vs QĐ 3363 (11/08/2026) • Hạn GVCN: 11h00 15/09/2026</p>
+<p>CV 5778/SGDĐT-KHTC • QĐ 209 (16/01/2026) vs QĐ 3363 (11/08/2026)</p>
+<div class="badge">⏰ GVCN nộp về VP trước 11h00 ngày 15/09/2026</div>
 </header>
-<nav>
-<button class="on" data-t="tracuu">🔍 Tra cứu thôn/xã</button>
-<button data-t="lop">📋 Rà soát lớp</button>
-<button data-t="hieu">💡 KV I·II·III là gì?</button>
-</nav>
 <main>
-<!-- TRA CỨU -->
-<section class="card" id="s-tracuu">
-<h2>🔍 Tra cứu 1 học sinh</h2>
-<p><small class="note">Nhập đúng <b>thôn + xã sau sáp nhập</b> theo CCCD/VNeID. App tự so QĐ209 vs QĐ3363, độ chính xác ~95% (bóc từ PDF, luôn đối chiếu PDF gốc khi nghi ngờ).</small></p>
-<div class="grid3">
-<div><label>Thôn / Tổ dân phố<br><input id="in-thon" list="dl-thon" placeholder="VD: Thôn 1, Kon Dơng 4, Tân Hiệp, Plei Đung..."></label></div>
-<div><label>Xã / Phường<br><input id="in-xa" list="dl-xa" placeholder="VD: Kbang, Mang Yang, Phú Thiện..."></label></div>
-<div><label>&nbsp;<br><button class="btn" onclick="traCuu()">Tra cứu →</button></label></div>
+
+<!-- TRA CỨU LẺ -->
+<section class="card">
+<h2>🔍 Tra cứu nhanh 1 em</h2>
+<p><small class="note">Nhập <b>thôn + xã sau sáp nhập</b> theo CCCD/VNeID (có gợi ý sẵn). Dữ liệu bóc từ PDF, đúng ~95% — ca nghi ngờ đối chiếu PDF gốc.</small></p>
+<div class="grid2">
+<div><label>Thôn / Tổ dân phố<br><input id="in-thon" list="dl-thon" placeholder="VD: Thôn 1, Kon Dơng 4, Plei Đung..." autocomplete="off"></label></div>
+<div><label>Xã / Phường<br><input id="in-xa" list="dl-xa" placeholder="VD: Kbang, Mang Yang, Phú Thiện..." autocomplete="off"></label></div>
 </div>
+<button class="btn" onclick="traCuu()">Tra cứu →</button>
 <datalist id="dl-xa"></datalist><datalist id="dl-thon"></datalist>
 <div id="kq-tracuu"></div>
 </section>
-<!-- LỚP -->
-<section class="card" id="s-lop" style="display:none">
-<h2>📋 Rà soát cả lớp + xuất Excel mẫu VP</h2>
-<p><small class="note">Mỗi dòng 1 HS: <b>Họ tên | Ngày sinh | Thôn | Xã</b> — VD:<br><code>Nguyễn Văn A | 01/01/2009 | Thôn 1 | Kbang</code></small></p>
-<textarea id="in-lop" placeholder="Dán danh sách lớp vào đây..."></textarea><br>
-<label>Tên lớp: <input id="in-tenlop" value="" placeholder="VD: 12A1" style="width:140px;display:inline-block"></label>
-<button class="btn" onclick="raSoat()">1️⃣ Phân loại</button>
-<button class="btn gold" onclick="xuatExcel()">2️⃣ Xuất Excel mẫu VP ⬇</button>
-<button class="btn ghost" onclick="taiMauTrong()">Tải file mẫu trống</button>
-<input type="file" id="up" accept=".xlsx,.csv" style="margin-top:8px" onchange="docFile(this)">
+
+<!-- BƯỚC 1 -->
+<section class="card">
+<h2><span class="step">1</span>Nhập danh sách lớp</h2>
+<p><small class="note">Mỗi dòng 1 HS, các cột cách nhau bằng <b>|</b> (hoặc Tab khi copy từ Excel):<br>
+<code>Họ tên | Ngày sinh | Dân tộc | Thôn | Xã</code> — cột Dân tộc có thể bỏ trống.<br>
+VD: <code>Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang</code></small></p>
+<label>Tên lớp:<br><input id="in-tenlop" placeholder="VD: 12A1" style="max-width:220px" autocomplete="off"></label>
+<div style="height:10px"></div>
+<textarea id="in-lop" placeholder="Dán danh sách lớp vào đây..."></textarea>
+<div>
+<button class="btn ghost" onclick="dienVD()">Điền ví dụ</button>
+<button class="btn ghost" onclick="xoaTrang()">Xóa trắng</button>
+</div>
+<div style="margin-top:10px"><small class="note">Hoặc tải file Excel/CSV có sẵn (app tự đoán cột Họ tên, Ngày sinh, Dân tộc, Thôn, Xã):</small>
+<input type="file" id="up" accept=".xlsx,.csv" style="margin-top:6px" onchange="docFile(this)"></div>
+</section>
+
+<!-- BƯỚC 2 -->
+<section class="card">
+<h2><span class="step">2</span>Phân loại</h2>
+<button class="btn" onclick="raSoat()">1️⃣ Phân loại cả lớp</button>
+<label class="cb"><input type="checkbox" id="ck-loc" onchange="renderTable()"> Chỉ hiện em bị ảnh hưởng (Nhóm 1/2/3)</label>
+<div id="kq-stats"></div>
 <div id="kq-lop"></div>
 </section>
-<!-- HIỂU -->
-<section class="card" id="s-hieu" style="display:none">
-<h2>💡 Giải thích cho PH: KV I, II, III là gì?</h2>
-<div class="grid3">
-<div class="kv III"><b>🔴 Xã KV III = xã nghèo nhất</b><br>Mang Yang, Phú Thiện, Ia Hrú, Ya Ma, Kbang, Sơn Lang... HS được nhiều tiền hỗ trợ nhất.</div>
+
+<!-- BƯỚC 3 -->
+<section class="card">
+<h2><span class="step">3</span>Xuất file nộp VP</h2>
+<p><small class="note">File đúng mẫu của tài vụ (giữ nguyên tiêu đề, khung, merge). Lớp không có em nào bị ảnh hưởng vẫn xuất file trống có tên lớp + tổng 0 để in ký nộp. Dữ liệu chỉ xử lý trên máy thầy, không gửi đi đâu.</small></p>
+<button class="btn gold big" onclick="xuatExcel()">2️⃣ Xuất Excel nộp VP ⬇</button>
+<button class="btn ghost" onclick="taiMauTrong()">Tải file mẫu trống</button>
+<div id="kq-excel"></div>
+</section>
+
+<!-- GIẢI THÍCH -->
+<details class="card">
+<summary>💡 KV I · II · III là gì? (bấm để xem, để forward cho PH)</summary>
+<div class="kv III"><b>🔴 Xã KV III = xã khó nhất</b><br>Mang Yang, Phú Thiện, Ia Hrú, Ya Ma, Kbang, Sơn Lang... HS được hỗ trợ nhiều nhất.</div>
 <div class="kv II"><b>🟡 Xã KV II = xã còn khó</b><br>Hội Phú, Thống Nhất, An Bình... Hưởng ít hơn.</div>
 <div class="kv I"><b>🔵 Xã KV I = hết khó, lên phố</b><br>Pleiku, Diên Hồng... Hết chính sách vùng khó.</div>
-</div>
 <div class="card" style="background:#F8FAFC">
-<b>Thôn ĐBKK là gì?</b> Trong 1 xã có thôn giàu thôn nghèo. Thôn nghèo nhất gọi là thôn ĐBKK. VD Kbang KV II có 14 thôn nhưng chỉ 6 thôn ĐBKK (Thôn 2,4,9...), Thôn 1 <b>không</b> ĐBKK.<br><br>
-<b>Nhóm 1,2,3 là ai?</b> Chỉ 1 câu: <b>trước ở thôn ĐBKK, nay thôn hết ĐBKK nên bị cắt tiền.</b> Nhóm 1 = thôn ngoài KV, Nhóm 2 = thôn trong xã KV I, Nhóm 3 = thôn trong xã KV II.<br><br>
+<b>Thôn ĐBKK là gì?</b> Trong 1 xã có thôn giàu thôn nghèo. Thôn nghèo nhất gọi là thôn ĐBKK.<br><br>
+<b>Nhóm 1, 2, 3 là ai?</b> Chỉ 1 câu: <b>trước ở thôn ĐBKK, nay thôn hết ĐBKK nên bị cắt tiền.</b> Nhóm 1 = thôn ngoài KV, Nhóm 2 = thôn trong xã KV I, Nhóm 3 = thôn trong xã KV II.<br><br>
 <b>PH cần làm gì?</b> Chỉ nhắn <b>thôn + xã sau sáp nhập</b> theo CCCD. Đừng tự đoán nhóm, thầy tra QĐ.
 </div>
-</section>
-<div class="foot">THPT Chi Lăng • Tổ VP tổng hợp gửi Sở trước 17/09/2026 • Dữ liệu bóc từ PDF QĐ209 (608 thôn ĐBKK) & QĐ3363 (410 thôn ĐBKK)</div>
+</details>
+
+<div class="foot">THPT Chi Lăng • Tổ VP tổng hợp gửi Sở trước 17/09/2026 • Đối chiếu QĐ209 (608 thôn ĐBKK) &amp; QĐ3363 (410 thôn ĐBKK) — app đã số hóa 569/389 thôn, ca nghi ngờ đối chiếu PDF gốc</div>
 </main>
 <script>
-function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
+function norm(s){return (s||"").toLowerCase().replace(/đ/g,"d").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
 const XA=Object.keys(QD_DATA).sort();
 document.getElementById("dl-xa").innerHTML=XA.map(x=>`<option value="${x}">`).join("");
 const ALLTHON=[...new Set(XA.flatMap(x=>QD_DATA[x].all))].sort();
 document.getElementById("dl-thon").innerHTML=ALLTHON.map(x=>`<option value="${x}">`).join("");
+function stripPrefix(s){return norm(s).replace(/^(xa|phuong|thi tran|thanh pho)\s+/,"").trim();}
 function matchXa(q){
-  q=norm(q); if(!q) return null;
-  let f=XA.find(x=>norm(x)===q); if(f) return f;
-  f=XA.find(x=>norm(x).includes(q)||q.includes(norm(x).replace(/^(xa|phuong) /,""))); if(f) return f;
+  const nq=stripPrefix(q); if(!nq||nq.length<2) return null;
+  let f=XA.find(x=>stripPrefix(x)===nq); if(f) return f;
+  f=XA.find(x=>norm(x)===norm(q)); if(f) return f;
+  const cands=XA.filter(x=>{const nx=stripPrefix(x); return nx.startsWith(nq)||nq.startsWith(nx);});
+  if(cands.length===1) return cands[0];
   return null;
 }
 function inDB(thon,list){
-  const t=norm(thon).replace(/-/g," ").trim();
+  const clean=s=>norm(s).replace(/-/g," ").replace(/['’`]/g,"").trim();
+  const t=clean(thon);
+  if(!t) return false;
   const tc=t.replace(/\s/g,"");
   return list.some(d=>{
-    const n=norm(d).replace(/-/g," ").trim();
+    const n=clean(d);
     if(n===t||n.replace(/\s/g,"")===tc) return true;
     const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
     try{
@@ -117,7 +149,7 @@ function inDB(thon,list){
 }
 function classify(thon,xaRaw){
   const xa=matchXa(xaRaw);
-  if(!xa) return {xa:null,note:"Không tìm thấy xã trong QĐ Gia Lai (có thể ngoài tỉnh như Bờ Y, Cẩm Thành) → ngoài phạm vi."};
+  if(!xa) return {xa:null,note:"Gõ chưa rõ xã (có thể viết tắt hoặc ngoài tỉnh Gia Lai) → chọn đúng tên trong gợi ý, hoặc ghi chú báo VP."};
   const D=QD_DATA[xa];
   const db209=inDB(thon,D.db209), db3363=inDB(thon,D.db3363);
   let nhom="Không", kl="Không thuộc diện (thôn không ĐBKK ở QĐ209).", cls="p0";
@@ -134,66 +166,139 @@ function traCuu(){
   const thon=document.getElementById("in-thon").value.trim(), xa=document.getElementById("in-xa").value.trim();
   const r=classify(thon,xa); const box=document.getElementById("kq-tracuu");
   if(!r.xa){box.innerHTML=`<div class="result hit"><b>Không tìm thấy xã “${xa}”.</b><br>${r.note}</div>`;return;}
+  const txt=`${thon||"(chưa nhập thôn)"} - ${r.xa}: ${r.nhom}. KV ${r.kv209||"?"} (209) -> KV ${r.kv3363||"?"} (3363). Thon DBKK 209: ${r.db209?"CO":"KHONG"}, 3363: ${r.db3363?"CO":"KHONG"}. ${r.kl}`;
   box.innerHTML=`<div class="result ${r.nhom==="Không"?"ok":"hit"}">
   <b>${thon||"(chưa nhập thôn)"} — ${r.xa}</b> <span class="pill ${r.cls}">${r.nhom}</span><br>
   Xã: KV ${r.kv209||"?"} (QĐ209) → KV ${r.kv3363||"?"} (QĐ3363)<br>
   Thôn ĐBKK QĐ209: <b>${r.db209?"CÓ":"KHÔNG"}</b> • QĐ3363: <b>${r.db3363?"CÓ":"KHÔNG"}</b><br>${r.kl}<br>
+  <button class="btn ghost" onclick='copyTxt(${JSON.stringify(txt)})'>📋 Copy gửi Zalo PH</button><br>
   <small class="note">ĐBKK 209 ${r.xa}: ${r.dbL209.join("; ")||"—"}<br>ĐBKK 3363: ${r.dbL3363.join("; ")||"—"}</small></div>`;
+}
+function copyTxt(t){
+  const done=()=>alert("Đã copy, thầy dán vào Zalo là xong.");
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}
+  else fallbackCopy(t,done);
+}
+function fallbackCopy(t,cb){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+function splitLine(ln){
+  let parts=ln.split("|");
+  if(parts.length<4&&ln.includes("\t")) parts=ln.split("\t");
+  if(parts.length<4&&ln.includes(";")) parts=ln.split(";");
+  return parts.map(s=>s.trim());
+}
+function parseLine(ln){
+  const p=splitLine(ln);
+  if(p.length>=5) return {ten:p[0]||"",ns:p[1]||"",dantoc:p[2]||"",thon:p[3]||"",xa:p[4]||""};
+  return {ten:p[0]||"",ns:p[1]||"",dantoc:"",thon:p[2]||"",xa:p[3]||""};
 }
 let KQ=[];
 function raSoat(){
-  const lop=document.getElementById("in-tenlop").value||"...";
+  saveDraft();
   const lines=document.getElementById("in-lop").value.split("\n").map(s=>s.trim()).filter(Boolean);
   KQ=lines.map((ln,i)=>{
-    const p=ln.split("|").map(s=>s.trim());
-    const [ten,ns,thon,xa]=[p[0]||"",p[1]||"",p[2]||"",p[3]||""];
-    const r=classify(thon,xa);
-    return {stt:i+1,ten,ns,thon,xa,xaChuan:r.xa||xa,nhom:r.nhom,kl:(r.kl||r.note||"")};
+    const d=parseLine(ln);
+    const r=classify(d.thon,d.xa);
+    return {stt:i+1,ten:d.ten,ns:d.ns,dantoc:d.dantoc,thon:d.thon,xa:d.xa,xaChuan:r.xa||d.xa,nhom:r.nhom,kl:(r.kl||r.note||"")};
   });
-  const hit=KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom)).length;
-  document.getElementById("kq-lop").innerHTML=`<p><b>Lớp ${lop}: ${KQ.length} HS — Nhóm 1/2/3: ${hit} — Còn lại: ${KQ.length-hit}</b></p>
-  <div style="overflow:auto"><table><thead><tr><th>STT</th><th>Họ tên</th><th>Ngày sinh</th><th>Thôn — Xã</th><th>Nhóm</th><th>Kết luận</th></tr></thead><tbody>${KQ.map(x=>`<tr><td>${x.stt}</td><td>${x.ten}</td><td>${x.ns}</td><td>${x.thon} — ${x.xaChuan}</td><td><span class="pill ${x.nhom==="Không"?"p0":x.nhom==="Nhóm 1"?"p1":x.nhom==="Nhóm 2"?"p2":"p3"}">${x.nhom}</span></td><td>${x.kl}</td></tr>`).join("")}</tbody></table></div>`;
+  renderTable();
+}
+function pillCls(n){return n==="Không"?"p0":n==="Nhóm 1"?"p1":n==="Nhóm 2"?"p2":n==="Nhóm 3"?"p3":"px";}
+function renderTable(){
+  const lop=document.getElementById("in-tenlop").value||"...";
+  const loc=document.getElementById("ck-loc").checked;
+  const rows=loc?KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom)):KQ;
+  const c1=KQ.filter(x=>x.nhom==="Nhóm 1").length,c2=KQ.filter(x=>x.nhom==="Nhóm 2").length,c3=KQ.filter(x=>x.nhom==="Nhóm 3").length;
+  document.getElementById("kq-stats").innerHTML=KQ.length?`<div class="stats"><div class="stat">Lớp ${lop}: ${KQ.length} HS</div><div class="stat">Bị ảnh hưởng: ${c1+c2+c3}</div><div class="stat">N1: ${c1} • N2: ${c2} • N3: ${c3}</div></div>`:"";
+  document.getElementById("kq-lop").innerHTML=rows.length?`<div style="overflow:auto"><table><thead><tr><th>STT</th><th>Họ tên</th><th>Ngày sinh</th><th>Dân tộc</th><th>Thôn — Xã</th><th>Nhóm</th><th>Kết luận</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.stt}</td><td>${x.ten}</td><td>${x.ns}</td><td>${x.dantoc}</td><td>${x.thon} — ${x.xaChuan}</td><td><span class="pill ${pillCls(x.nhom)}">${x.nhom}</span></td><td>${x.kl}</td></tr>`).join("")}</tbody></table></div>`:(KQ.length?"<p><small class='note'>Bật lọc mà lớp không có em nào bị ảnh hưởng — tốt, vẫn xuất file trống nộp VP.</small></p>":"");
+}
+function dienVD(){document.getElementById("in-lop").value="Nguyễn Văn A | 01/01/2009 | Kinh | Thôn 1 | Kbang\nRơ Chăm H'Bla | 12/05/2009 | Jrai | Plei Đung | Ia Hrú\nNguyễn Thị B | 03/03/2009 | | Kon Dơng 4 | Mang Yang";saveDraft();}
+function xoaTrang(){document.getElementById("in-lop").value="";document.getElementById("kq-lop").innerHTML="";document.getElementById("kq-stats").innerHTML="";KQ=[];saveDraft();}
+function saveDraft(){try{localStorage.setItem("nd66_lop",document.getElementById("in-tenlop").value);localStorage.setItem("nd66_ds",document.getElementById("in-lop").value);}catch(e){}}
+function loadDraft(){try{document.getElementById("in-tenlop").value=localStorage.getItem("nd66_lop")||"";document.getElementById("in-lop").value=localStorage.getItem("nd66_ds")||"";}catch(e){}}
+function needXLSX(){
+  if(typeof XLSX!=="undefined") return true;
+  document.getElementById("kq-excel").innerHTML=`<div class="err"><b>Không tải được thư viện Excel</b> (mạng trường chặn CDN và thiếu file offline). Thầy kiểm tra mạng rồi tải lại trang, hoặc bấm “Tải file mẫu trống” điền tay.</div>`;
+  return false;
 }
 function docFile(el){
-  const f=el.files[0]; if(!f) return; const rd=new FileReader();
-  rd.onload=e=>{const wb=XLSX.read(e.target.result,{type:"array"});const ws=wb.Sheets[wb.SheetNames[0]];
-  const rows=XLSX.utils.sheet_to_json(ws,{header:1});document.getElementById("in-lop").value=rows.slice(1).map(r=>r.slice(0,4).join(" | ")).join("\n");raSoat();};
+  const f=el.files[0]; if(!f) return;
+  if(!needXLSX()) return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:"array"});const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1});
+      if(!rows.length) return;
+      const head=rows[0].map(h=>norm(String(h||"")));
+      let ci={ten:0,ns:1,dt:-1,thon:2,xa:3};
+      const fi=kw=>{let i=head.findIndex(h=>kw.some(k=>h===k));if(i<0)i=head.findIndex(h=>kw.some(k=>k.length<=3?h.split(/[\s\/]+/).includes(k):h.includes(k)));return i;};
+      const hTen=fi(["ho va ten","ho ten","ten hs","ten hoc sinh"]), hNs=fi(["ngay sinh","ns"]), hDt=fi(["dan toc"]), hThon=fi(["thon","to dan pho","tdp","lang","plei","buon"]), hXa=fi(["xa","phuong"]);
+      let start=1;
+      if(hTen>=0||hNs>=0||hThon>=0||hXa>=0){ci={ten:hTen>=0?hTen:0,ns:hNs>=0?hNs:1,dt:hDt,thon:hThon>=0?hThon:2,xa:hXa>=0?hXa:3};start=1;}
+      else if(rows[0].length>=5){ci={ten:0,ns:1,dt:2,thon:3,xa:4};start=0;}
+      else {ci={ten:0,ns:1,dt:-1,thon:2,xa:3};start=0;}
+      const lines=rows.slice(start).filter(r=>r.some(c=>String(c||"").trim())).map(r=>[(r[ci.ten]||""),(r[ci.ns]||""),(ci.dt>=0?(r[ci.dt]||""):""),(r[ci.thon]||""),(r[ci.xa]||"")].join(" | "));
+      document.getElementById("in-lop").value=lines.join("\n");raSoat();
+    }catch(err){document.getElementById("kq-excel").innerHTML=`<div class="err">Không đọc được file: ${err.message}</div>`;}
+  };
   rd.readAsArrayBuffer(f);
 }
 function templateWB(){return XLSX.read(window.TEMPLATE_B64,{type:"base64",cellStyles:true});}
 function nhomSo(n){return n==="Nhóm 1"?"1":n==="Nhóm 2"?"2":n==="Nhóm 3"?"3":"";}
 function b64ToBlob(b64,mime){const bin=atob(b64);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:mime});}
+function insertRows(ws,at,n){
+  const keys=Object.keys(ws).filter(k=>/^[A-Z]+\d+$/.test(k));
+  keys.sort((a,b)=>(+b.match(/\d+$/)[0])-(+a.match(/\d+$/)[0]));
+  for(const k of keys){const m=k.match(/^([A-Z]+)(\d+)$/);const col=m[1],row=+m[2];
+    if(row>=at){ws[col+(row+n)]=ws[k];delete ws[k];}}
+  if(ws["!merges"])ws["!merges"].forEach(mg=>{const s=mg.s.r+1,e=mg.e.r+1;if(s>=at){mg.s.r+=n;mg.e.r+=n;}else if(e>=at){mg.e.r+=n;}});
+  try{const range=XLSX.utils.decode_range(ws["!ref"]);range.e.r+=n;ws["!ref"]=XLSX.utils.encode_range(range);}catch(e){}
+}
 function fillMau(rows,lop){
   const wb=templateWB(); const ws=wb.Sheets[wb.SheetNames[0]];
-  const set=(a,v)=>{ws[a]={t:"s",v:String(v==null?"":v)};};
+  const DATA0=6,SAMPLE=10,TOT0=17;
+  const N=rows.length;
+  const keep=a=>ws[a]?ws[a].s:undefined;
+  const set=(a,v)=>{const s=keep(a);ws[a]={t:"s",v:String(v==null?"":v)};if(s)ws[a].s=s;};
   set("A2","LỚP: "+lop);
+  if(N>SAMPLE) insertRows(ws,16,N-SAMPLE);
+  const cap=Math.max(N,SAMPLE);
   rows.forEach((x,i)=>{
-    const r=6+i;
-    set("A"+r,i+1); set("B"+r,x.ten||""); set("C"+r,x.ns||""); set("D"+r,"Kinh"); set("E"+r,lop);
-    set("F"+r,((x.thon||"")+(x.xaChuan?", "+x.xaChuan:""))); set("G"+r,nhomSo(x.nhom));
-    set("H"+r,x.nhom==="Không"?"":(x.kl||"")); set("I"+r,""); set("J"+r,"");
+    const r=DATA0+i;
+    set("A"+r,i+1);set("B"+r,x.ten||"");set("C"+r,x.ns||"");set("D"+r,x.dantoc||"");set("E"+r,lop);
+    set("F"+r,((x.thon||"")+(x.xaChuan?", "+x.xaChuan:"")));set("G"+r,nhomSo(x.nhom));
+    set("H"+r,x.nhom==="Không"||x.nhom==="Ngoài 3 nhóm"?"":(x.kl||""));set("I"+r,"");set("J"+r,"");
   });
-  set("B17","Tổng cộng:");
-  set("C17","Nhóm I (Nhóm 1): "+rows.filter(x=>x.nhom==="Nhóm 1").length+" Học sinh");
-  set("C18","Nhóm II (Nhóm 2): "+rows.filter(x=>x.nhom==="Nhóm 2").length+" Học sinh");
-  set("C19","Nhóm III (Nhóm 3): "+rows.filter(x=>x.nhom==="Nhóm 3").length+" Học sinh");
+  for(let r=DATA0+N;r<DATA0+cap;r++){["A","B","C","D","E","F","G","H","I","J"].forEach(c=>set(c+r,""));}
+  const T=N>SAMPLE?TOT0+(N-SAMPLE):TOT0;
+  set("B"+T,"Tổng cộng:");
+  set("C"+T,"Nhóm I (Nhóm 1): "+rows.filter(x=>x.nhom==="Nhóm 1").length+" Học sinh");
+  set("C"+(T+1),"Nhóm II (Nhóm 2): "+rows.filter(x=>x.nhom==="Nhóm 2").length+" Học sinh");
+  set("C"+(T+2),"Nhóm III (Nhóm 3): "+rows.filter(x=>x.nhom==="Nhóm 3").length+" Học sinh");
   return wb;
 }
 function xuatExcel(){
+  if(!needXLSX()) return;
   if(!KQ.length) raSoat();
   const lop=document.getElementById("in-tenlop").value||"...";
   const aff=KQ.filter(x=>["Nhóm 1","Nhóm 2","Nhóm 3"].includes(x.nhom));
-  XLSX.writeFile(fillMau(aff,lop),lop+" - Bang ra soat ND66-2025.xlsx",{cellStyles:true});
+  try{
+    XLSX.writeFile(fillMau(aff,lop),lop+" - Bang ra soat ND66-2025.xlsx",{cellStyles:true});
+    document.getElementById("kq-excel").innerHTML=`<p><small class="note">Đã xuất ${aff.length} em (Nhóm 1/2/3) vào file đúng mẫu VP. Lớp 0 em thì file trống có tên lớp + tổng 0 — thầy in ký nộp bình thường.</small></p>`;
+  }catch(err){document.getElementById("kq-excel").innerHTML=`<div class="err">Xuất Excel lỗi: ${err.message}</div>`;}
 }
 function taiMauTrong(){
-  const blob=b64ToBlob(window.TEMPLATE_B64,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Mau ra soat ND66-2025 (goc tai vu).xlsx"; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  try{
+    const blob=b64ToBlob(window.TEMPLATE_B64,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="Mau ra soat ND66-2025 (goc tai vu).xlsx";a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  }catch(err){document.getElementById("kq-excel").innerHTML=`<div class="err">Tải mẫu lỗi: ${err.message}</div>`;}
 }
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
-  ["tracuu","lop","hieu"].forEach(t=>document.getElementById("s-"+t).style.display=(t===b.dataset.t?"":"none"));
-});
+document.getElementById("in-thon").addEventListener("keydown",e=>{if(e.key==="Enter")traCuu();});
+document.getElementById("in-xa").addEventListener("keydown",e=>{if(e.key==="Enter")traCuu();});
+document.getElementById("in-lop").addEventListener("input",saveDraft);
+document.getElementById("in-tenlop").addEventListener("input",saveDraft);
+loadDraft();
 </script>
 </body>
 </html>
